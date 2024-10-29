@@ -4,32 +4,61 @@
  */
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author 20231PF.CC0033
  */
-public class Veiculo {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name="tb_veiculo")
+public class Veiculo implements Serializable {
+    
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id
     private Integer id;
+    
+    @Column(name="placa")
     private String placa;
+    
+    @Column(name="cor")
     private String cor;
     
-    private Integer tipoVeiculo;
+    @Enumerated(EnumType.STRING)
+    private TipoVeiculo tipoVeiculo;
     
+    @ManyToOne
+    @JoinColumn(name="modelo_id")
     private Modelo modelo;
-    private List<EntradaSaida> listaMovimentacoes;
+    
+//    @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<EntradaSaida> listaMovimentacoes;
+    
+    @ManyToOne
+    @JoinColumn(name="proprietario_id")
     private Pessoa proprietario;
     
     public Veiculo(){
-        listaMovimentacoes= new ArrayList<>();
+       // listaMovimentacoes= new ArrayList<>();
     }
 
-    public Veiculo(String placa, Integer tipoVeiculo) {
+    public Veiculo(String placa, TipoVeiculo tipoVeiculo) {
         this.placa = placa;
         this.tipoVeiculo = tipoVeiculo;
-        listaMovimentacoes= new ArrayList<>();
+       // listaMovimentacoes= new ArrayList<>();
     }
     
     
@@ -57,16 +86,16 @@ public class Veiculo {
         this.cor = cor;
     }
 
-    public Integer getTipoVeiculo() {
+    public TipoVeiculo getTipoVeiculo() {
         return tipoVeiculo;
     }
 
-    public void setTipoVeiculo(Integer tipoVeiculo) {
+    public void setTipoVeiculo(TipoVeiculo tipoVeiculo) {
         this.tipoVeiculo = tipoVeiculo;
     }
     
     public void addMovimentacao(EntradaSaida movimento) {
-        listaMovimentacoes.add(movimento);
+       // listaMovimentacoes.add(movimento);
     }
 
     public Modelo getModelo() {

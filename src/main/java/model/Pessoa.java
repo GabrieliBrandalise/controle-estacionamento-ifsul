@@ -4,24 +4,51 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author 20231PF.CC0033
  */
-public class Pessoa {
+
+@Entity
+@Table(name="tb_pessoa")
+public class Pessoa implements Serializable {
+    
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id
     private Integer id;
+    
+    @Column(name="nome")
     private String nome;
-    private Integer tipoPessoa;
+    
+    @Enumerated(EnumType.STRING)
+    private VinculoPessoa tipoPessoa;
+    
+    @Column(name="telefone")
     private String telefone;
+    
+    @Column(name="email")
     private String email;
-    private List<Veiculo> listaVeiculos;
+    
+//    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Veiculo> listaVeiculos;
     
     
     public Pessoa(){
-        listaVeiculos =new ArrayList<>();
+       // listaVeiculos =new ArrayList<>();
     }
     public Integer getId() {
         return id;
@@ -39,11 +66,11 @@ public class Pessoa {
         this.nome = nome;
     }
 
-    public Integer getTipoPessoa() {
+    public VinculoPessoa getTipoPessoa() {
         return tipoPessoa;
     }
 
-    public void setTipoPessoa(Integer tipoPessoa) {
+    public void setTipoPessoa(VinculoPessoa tipoPessoa) {
         this.tipoPessoa = tipoPessoa;
     }
 
@@ -64,6 +91,6 @@ public class Pessoa {
     }
     
     public void addVeiculo(Veiculo veiculo){
-        listaVeiculos.add(veiculo);
+     //   listaVeiculos.add(veiculo);
     }
 }

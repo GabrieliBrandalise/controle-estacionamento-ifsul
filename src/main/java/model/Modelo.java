@@ -4,14 +4,32 @@
  */
 package model;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author 20231PF.CC0033
  */
-public class Modelo {
+@Entity
+@Table(name="tb_modelo")
+public class Modelo implements Serializable{
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id
     private Integer id;
+    
+    @Column(name="descricao", nullable = false)
     private String descricao;
-    private Integer marca;
+    
+    @Enumerated(EnumType.STRING)
+    private Marca marca;
 
     public Integer getId() {
         return id;
@@ -29,11 +47,11 @@ public class Modelo {
         this.descricao = descricao;
     }
 
-    public Integer getMarca() {
+    public Marca getMarca() {
         return marca;
     }
 
-    public void setMarca(Integer marca) {
+    public void setMarca(Marca marca) {
         this.marca = marca;
     }
 }

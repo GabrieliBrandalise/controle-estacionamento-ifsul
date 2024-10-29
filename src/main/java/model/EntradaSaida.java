@@ -4,29 +4,54 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author 20231PF.CC0033
  */
-public class EntradaSaida {
-    private Integer id;
-    private Date data;
-    private Integer tipoEntradaSaida;
-    private final Veiculo veiculo;
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name="tb_entradasaida")
+public class EntradaSaida implements Serializable {
     
-    public EntradaSaida(int tipoES, Veiculo veiculo){
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id
+    private Integer id;
+    
+    @Column(name="data")
+    private Date data;
+    
+    @Enumerated(EnumType.STRING)
+    private TipoEntradaSaida tipoEntradaSaida;
+    
+    @ManyToOne
+    @JoinColumn(name="veiculo_id")
+    private Veiculo veiculo;
+
+    public EntradaSaida() {
+    }
+    
+    public EntradaSaida(TipoEntradaSaida tipoES, Veiculo veiculo){
         this.tipoEntradaSaida = tipoES;
         this.veiculo = veiculo;
         data = new Date();
     }
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Date getData() {
@@ -37,11 +62,11 @@ public class EntradaSaida {
         this.data = data;
     }
 
-    public Integer getTipoEntradaSaida() {
+    public TipoEntradaSaida getTipoEntradaSaida() {
         return tipoEntradaSaida;
     }
 
-    public void setTipoEntradaSaida(Integer tipoEntradaSaida) {
+    public void setTipoEntradaSaida(TipoEntradaSaida tipoEntradaSaida) {
         this.tipoEntradaSaida = tipoEntradaSaida;
     }
 
