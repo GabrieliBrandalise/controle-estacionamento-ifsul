@@ -43,12 +43,12 @@ public class Pessoa implements Serializable {
     @Column(name="email")
     private String email;
     
-//    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Veiculo> listaVeiculos;
+    @OneToMany(mappedBy = "proprietario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Veiculo> listaVeiculos;
     
     
     public Pessoa(){
-       // listaVeiculos =new ArrayList<>();
+        listaVeiculos =new ArrayList<>();
     }
     public Integer getId() {
         return id;
@@ -91,6 +91,13 @@ public class Pessoa implements Serializable {
     }
     
     public void addVeiculo(Veiculo veiculo){
-     //   listaVeiculos.add(veiculo);
+        listaVeiculos.add(veiculo);
     }
+
+    @Override
+    public String toString() {
+        return  "id=" + id + ", nome=" + nome + ", vinculo=" + tipoPessoa;
+    }
+    
+    
 }

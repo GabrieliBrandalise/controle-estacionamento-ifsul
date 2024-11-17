@@ -48,6 +48,7 @@ public class EntradaSaida implements Serializable {
     public EntradaSaida(TipoEntradaSaida tipoES, Veiculo veiculo){
         this.tipoEntradaSaida = tipoES;
         this.veiculo = veiculo;
+        this.veiculo.addMovimentacao(this);
         data = new Date();
     }
     public Integer getId() {

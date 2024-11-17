@@ -5,6 +5,9 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,6 +19,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -44,21 +48,21 @@ public class Veiculo implements Serializable {
     @JoinColumn(name="modelo_id")
     private Modelo modelo;
     
-//    @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<EntradaSaida> listaMovimentacoes;
+    @OneToMany(mappedBy = "veiculo")
+    private List<EntradaSaida> listaMovimentacoes;
     
     @ManyToOne
     @JoinColumn(name="proprietario_id")
     private Pessoa proprietario;
     
     public Veiculo(){
-       // listaMovimentacoes= new ArrayList<>();
+        listaMovimentacoes= new ArrayList<>();
     }
 
     public Veiculo(String placa, TipoVeiculo tipoVeiculo) {
         this.placa = placa;
         this.tipoVeiculo = tipoVeiculo;
-       // listaMovimentacoes= new ArrayList<>();
+        listaMovimentacoes= new ArrayList<>();
     }
     
     
@@ -95,7 +99,7 @@ public class Veiculo implements Serializable {
     }
     
     public void addMovimentacao(EntradaSaida movimento) {
-       // listaMovimentacoes.add(movimento);
+        listaMovimentacoes.add(movimento);
     }
 
     public Modelo getModelo() {
