@@ -7,7 +7,6 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -40,6 +39,9 @@ public class Veiculo implements Serializable {
     
     @Column(name="cor")
     private String cor;
+    
+    @Column(name="veiculooficial", nullable = false)
+    private Boolean veiculoOficial;
     
     @Enumerated(EnumType.STRING)
     private TipoVeiculo tipoVeiculo;
@@ -116,5 +118,13 @@ public class Veiculo implements Serializable {
 
     public void setProprietario(Pessoa proprietario) {
         this.proprietario = proprietario;
+    }
+
+    public boolean isVeiculoOficial() {
+        return veiculoOficial;
+    }
+
+    public void setVeiculoOficial(boolean veiculoOficial) {
+        this.veiculoOficial = veiculoOficial;
     }
 }

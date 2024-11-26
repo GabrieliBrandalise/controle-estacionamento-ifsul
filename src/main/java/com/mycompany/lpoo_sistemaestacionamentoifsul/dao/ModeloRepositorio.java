@@ -4,24 +4,28 @@
  */
 package com.mycompany.lpoo_sistemaestacionamentoifsul.dao;
 
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import model.Pessoa;
-import model.VinculoPessoa;
+import model.Marca;
+import model.Modelo;
+import model.Veiculo;
+
 
 /**
  *
  * @author ggbra
  */
-public class PessoaRepositorio implements InterfaceBD {
+public class ModeloRepositorio implements InterfaceBD {
 
     EntityManager entity;
     EntityManagerFactory factory;
 
-    public PessoaRepositorio() {
+    public ModeloRepositorio() {
         factory = Persistence.createEntityManagerFactory("pu_lpoo_estacionamento");
         entity = factory.createEntityManager();
     }
@@ -80,49 +84,20 @@ public class PessoaRepositorio implements InterfaceBD {
         }
         return entity;
     }
-
-    public List<Pessoa> getAll() {
-        entity = getEntityManager();
-        try {
-            Query query = entity.createQuery("Select p from Pessoa p ORDER BY p.id ASC", Pessoa.class);
-            return query.getResultList();
-        } catch (Exception e) {
-            System.err.println("Erro ao buscar Pessoas: " + e);
-            return null;
-        }
-    }
     
-    public List<Pessoa> getPessoaFiltro(String nome, VinculoPessoa vinculo){
-        entity = getEntityManager();
-        try {
-            Query query;
-            if (vinculo == null && (nome != null && !nome.isEmpty())){
-                
-                query = entity.createQuery("Select p from Pessoa p WHERE p.nome LIKE :nome ORDER BY p.id ASC", Pessoa.class); 
-                
-                query.setParameter("nome", "%" + nome + "%");
-                
-            } else if (vinculo != null && (nome == null || nome.isEmpty())){
-                
-                query = entity.createQuery("Select p from Pessoa p WHERE p.tipoPessoa LIKE :vinculo ORDER BY p.id ASC", Pessoa.class);
-               
-                query.setParameter("vinculo", vinculo);
-                
-            } else {
-               
-                query = entity.createQuery("Select p from Pessoa p WHERE p.tipoPessoa LIKE :vinculo AND p.nome LIKE :nome ORDER BY p.id ASC", Pessoa.class);
-               
-                query.setParameter("nome", "%" + nome + "%");
-               
-                query.setParameter("vinculo", vinculo);
-            }
-            
-            return query.getResultList();
-            
-        } catch (Exception e) {
-            System.err.println("Erro ao buscar Pessoas: " + e);
-            return null;
-        }
+    
+  public List<Modelo> getModelos(){
+    entity = getEntityManager();
+    try {
+        Query query = entity.createQuery("SELECT m FROM Modelo m ORDER BY m.id ASC", Modelo.class);
+        return query.getResultList();
+    } catch (Exception e) {
+        System.err.println("Erro ao buscar Modelos: " + e);
+        return null;
     }
+}
+
+
+
   
 }

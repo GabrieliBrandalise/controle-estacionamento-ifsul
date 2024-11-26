@@ -49,6 +49,11 @@ public class MainJFrame extends javax.swing.JFrame {
         menuCadastro.add(miPessoa);
 
         miVeiculo.setText("Veículo");
+        miVeiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miVeiculoActionPerformed(evt);
+            }
+        });
         menuCadastro.add(miVeiculo);
 
         jMenuBar1.add(menuCadastro);
@@ -109,6 +114,11 @@ public class MainJFrame extends javax.swing.JFrame {
        TelaPessoa telaPessoa = new TelaPessoa();
        telaPessoa.setVisible(true);
     }//GEN-LAST:event_miPessoaActionPerformed
+
+    private void miVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miVeiculoActionPerformed
+        TelaVeiculo telaVeiculo = new TelaVeiculo();
+        telaVeiculo.setVisible(true);
+    }//GEN-LAST:event_miVeiculoActionPerformed
 
     /**
      * @param args the command line arguments

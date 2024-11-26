@@ -4,7 +4,7 @@
  */
 package com.mycompany.lpoo_sistemaestacionamentoifsul.Frame;
 
-import com.mycompany.lpoo_sistemaestacionamentoifsul.dao.PersistenciaJPA;
+import com.mycompany.lpoo_sistemaestacionamentoifsul.dao.PessoaRepositorio;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -17,14 +17,14 @@ import model.VinculoPessoa;
  */
 public class TelaCadastroPessoa extends javax.swing.JDialog {
     private Pessoa p;
-    PersistenciaJPA jpa;
+    PessoaRepositorio jpa;
     /**
      * Creates new form TelaCadastroPessoa
      */
     public TelaCadastroPessoa(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        jpa = new PersistenciaJPA();
+        jpa = new PessoaRepositorio();
         popularComboBox();
     }
 
@@ -263,5 +263,9 @@ public class TelaCadastroPessoa extends javax.swing.JDialog {
 
     public void setP(Pessoa p) {
         this.p = p;
+        txtNome.setText(p.getNome());
+        txtEmail.setText(p.getEmail());
+        txtTelefone.setText(p.getTelefone());
+        cmbVinculoPessoa.setSelectedItem(p.getTipoPessoa());
     }
 }

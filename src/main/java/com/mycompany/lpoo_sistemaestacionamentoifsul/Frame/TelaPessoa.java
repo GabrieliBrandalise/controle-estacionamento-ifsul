@@ -5,9 +5,11 @@
 package com.mycompany.lpoo_sistemaestacionamentoifsul.Frame;
 
 
+import com.mycompany.lpoo_sistemaestacionamentoifsul.Frame.TelaCadastroPessoa;
 import com.mycompany.lpoo_sistemaestacionamentoifsul.dao.PessoaRepositorio;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import model.Pessoa;
 import model.VinculoPessoa;
 
@@ -25,8 +27,8 @@ public class TelaPessoa extends javax.swing.JFrame {
     public TelaPessoa() {
         initComponents();
         jpa = new PessoaRepositorio();
-        carregarPessoasCadastradas();
-        popularComboBox();
+        this.carregarPessoasCadastradas();
+        this.popularComboBox();
     }
 
     /**
@@ -67,13 +69,6 @@ public class TelaPessoa extends javax.swing.JFrame {
 
         lblBuscaVinculo.setText("Vinculo:");
 
-        txtBuscaNome.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                txtBuscaNomeInputMethodTextChanged(evt);
-            }
-        });
         txtBuscaNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtBuscaNomeActionPerformed(evt);
@@ -210,11 +205,43 @@ public class TelaPessoa extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPessoaActionPerformed
-        // TODO add your handling code here:
+         Pessoa pessoaSelecionada = lstPessoas.getSelectedValue();
+        
+        if (pessoaSelecionada != null){
+           TelaCadastroPessoa telaEdicao = new TelaCadastroPessoa(this, rootPaneCheckingEnabled);
+
+            telaEdicao.setP(pessoaSelecionada);
+            telaEdicao.setVisible(true);
+            
+            this.carregarPessoasCadastradas();
+        } else {
+            
+            JOptionPane.showMessageDialog(this, "Selecione uma pessoa para editar");
+        }
     }//GEN-LAST:event_btnEditarPessoaActionPerformed
 
     private void btnRemoverPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverPessoaActionPerformed
-        // TODO add your handling code here:
+        Pessoa pessoaSelecionada = lstPessoas.getSelectedValue();
+        
+        if (pessoaSelecionada != null){
+            System.out.println("Pessoa: " + pessoaSelecionada.getId());   
+            
+            try {
+                jpa.conexaoAberta();
+                
+                int delOp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja excluir o cadastro " + pessoaSelecionada.getNome() + " ?");
+                if (delOp == JOptionPane.YES_OPTION){
+                    jpa.remover(pessoaSelecionada);
+                }
+                
+                jpa.fecharConexao();
+                this.carregarPessoasCadastradas();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erro ao remover pessoa " + pessoaSelecionada + "\n" + e);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione uma pessoa para remover");
+        }
     }//GEN-LAST:event_btnRemoverPessoaActionPerformed
 
     private void btnNovaPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaPessoaActionPerformed
@@ -222,7 +249,7 @@ public class TelaPessoa extends javax.swing.JFrame {
         tlCadastro.setVisible(true);
         
        
-        carregarPessoasCadastradas();
+        this.carregarPessoasCadastradas();
     }//GEN-LAST:event_btnNovaPessoaActionPerformed
 
     private void txtBuscaNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscaNomeActionPerformed
@@ -232,10 +259,6 @@ public class TelaPessoa extends javax.swing.JFrame {
     private void cmbVinculoPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbVinculoPessoaActionPerformed
          this.carregarPessoasFiltro();
     }//GEN-LAST:event_cmbVinculoPessoaActionPerformed
-
-    private void txtBuscaNomeInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtBuscaNomeInputMethodTextChanged
-       
-    }//GEN-LAST:event_txtBuscaNomeInputMethodTextChanged
 
     private void txtBuscaNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaNomeKeyTyped
          this.carregarPessoasFiltro();
